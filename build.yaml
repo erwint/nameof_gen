@@ -1,7 +1,7 @@
 targets:
   $default:
     builders:
-      nameof:
+      nameof_gen:
         enabled: true
         generate_for:
           exclude:
@@ -10,9 +10,9 @@ targets:
             - test/integration/*
 
 builders:
-  nameof:
-    import: "package:nameof/nameof.dart"
-    builder_factories: ["nameof"]
+  nameof_gen:
+    import: "package:nameof_gen/src/builder.dart"
+    builder_factories: ["nameofGen"]
     build_extensions: { ".dart": [".nameof.dart"] }
     auto_apply: dependents
     build_to: source

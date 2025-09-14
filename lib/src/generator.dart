@@ -1,11 +1,12 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
-import 'package:nameof/src/nameof_code_processor.dart';
-import 'package:nameof/src/util/enum_extensions.dart';
 import 'package:nameof_annotation/nameof_annotation.dart';
 import 'package:source_gen/source_gen.dart';
+
+import 'code_processor.dart';
+import 'util/enum_extensions.dart';
 import 'model/options.dart';
-import 'nameof_visitor.dart';
+import 'visitor.dart';
 
 class NameofGenerator extends GeneratorForAnnotation<Nameof> {
   final Map<String, dynamic> config;

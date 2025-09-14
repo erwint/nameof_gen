@@ -1,4 +1,4 @@
-import 'package:nameof/src/nameof_generator.dart';
+import 'package:nameof_gen/src/generator.dart';
 import 'package:nameof_annotation/nameof_annotation.dart';
 import 'package:source_gen_test/source_gen_test.dart';
 

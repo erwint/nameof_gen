@@ -5,26 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "nameof",
-            "cwd": "packages\\nameof",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "nameof_annotation",
-            "cwd": "packages\\nameof_annotation",
+            "name": "nameof_gen",
+            "cwd": ".",
             "request": "launch",
             "type": "dart"
         },
         {
             "name": "example",
-            "cwd": "packages\\nameof\\example",
+            "cwd": "example",
             "request": "launch",
             "type": "dart"
         },
         {
             "name": "Debug Nameof Generator",
-            "cwd": "packages\\nameof\\example",
+            "cwd": "example",
             "request": "launch",
             "program": ".dart_tool/build/entrypoint/build.dart",
             "type": "dart",

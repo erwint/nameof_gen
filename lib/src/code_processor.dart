@@ -1,10 +1,10 @@
-import 'package:nameof/src/util/string_extensions.dart';
 import 'package:nameof_annotation/nameof_annotation.dart';
+import 'util/string_extensions.dart';
 
 import 'model/element_info.dart';
 import 'model/options.dart';
 import 'model/property_info.dart';
-import 'nameof_visitor.dart';
+import 'visitor.dart';
 
 /// Code lines builder
 class NameofCodeProcessor {
@@ -59,6 +59,7 @@ class NameofCodeProcessor {
     ]) {
       writeCode(codeLines);
     }
+
 
     buffer.writeln('}');
 

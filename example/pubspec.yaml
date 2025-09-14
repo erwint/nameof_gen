@@ -1,0 +1,14 @@
+name: nameof_gen_example
+description: Example of using nameof_gen package
+version: 1.0.0
+
+environment:
+  sdk: '>=2.16.0 <4.0.0'
+
+dependencies:
+  nameof_gen:
+    path: ../
+
+dev_dependencies:
+  lints: ^3.0.0
+  build_runner: ^2.1.11

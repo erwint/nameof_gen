@@ -1,0 +1,30 @@
+name: nameof_gen
+description: Modern Dart code generator for the nameof_annotation package. Provides compile-time access to class member names with analyzer 8.x+ support.
+version: 0.3.0
+homepage: https://github.com/erwint/nameof_gen
+repository: https://github.com/erwint/nameof_gen
+issue_tracker: https://github.com/erwint/nameof_gen/issues
+
+topics:
+  - codegen
+  - reflection
+  - names
+  - build-runner
+  - fork
+
+environment:
+  sdk: '>=2.16.0 <4.0.0'
+
+dependencies:
+  analyzer: '>=7.7.0 <8.2.0'
+  build: '>=2.4.0 <5.0.0'
+  source_gen: ^2.0.0
+  build_config: '>=0.4.4 <2.0.0'
+  nameof_annotation: ^0.2.1
+
+dev_dependencies:
+  build_runner: '>=2.4.0 <3.0.0'
+  build_test: ^3.0.0
+  source_gen_test: ^1.0.6
+  lints: ^6.0.0
+  test: ^1.24.0
