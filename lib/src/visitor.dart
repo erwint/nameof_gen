@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/visitor.dart';
+import 'package:analyzer/dart/element/visitor2.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:nameof_annotation/nameof_annotation.dart';
 
@@ -8,7 +8,7 @@ import 'util/element_extensions.dart';
 import 'util/string_extensions.dart';
 
 /// Class for collect info about inner elements of class (or mixin)
-class NameofVisitor extends RecursiveElementVisitor<void> {
+class NameofVisitor extends RecursiveElementVisitor2<void> {
   late String className;
 
   final constructors = <String, ElementInfo>{};
@@ -20,25 +20,25 @@ class NameofVisitor extends RecursiveElementVisitor<void> {
 
   @override
   void visitConstructorElement(ConstructorElement element) {
-    final elementName = element.name;
-    
-    // In the new analyzer, default constructors may be named 'new' instead of null/empty
-    // We need to detect default constructors differently
-    final isDefaultConstructor = elementName.isEmpty;
-    
-    // For backward compatibility: 
+    final elementName = element.name ?? 'new';
+
+    // In analyzer 8.2+, the name of unnamed constructors is 'new'
+    // For backward compatibility, we treat 'new' as the unnamed constructor
+    final isDefaultConstructor = elementName == 'new' || elementName.isEmpty;
+
+    // For backward compatibility:
     // - Use 'constructor' as the property name for default constructors
     // - Use empty string as the property value for default constructors
     final constructorKey = isDefaultConstructor ? 'constructor' : 'constructor${elementName.substring(0,1).toUpperCase()}${elementName.substring(1)}';
-    
+
     final constructorInfo = ElementInfo(
       name: isDefaultConstructor ? '' : elementName,
       originalName: isDefaultConstructor ? '' : elementName,
-      isPrivate: elementName.startsWith('_'),
+      isPrivate: !isDefaultConstructor && elementName.startsWith('_'),
       isAnnotated: element.hasAnnotation(NameofKey),
       isIgnore: element.hasAnnotation(NameofIgnore)
     );
-    
+
     constructors[constructorKey] = constructorInfo;
   }
 
@@ -48,25 +48,47 @@ class NameofVisitor extends RecursiveElementVisitor<void> {
       return;
     }
 
-    fields[element.name] = _getFieldInfo(element);
+    final name = element.name;
+    if (name != null) {
+      fields[name] = _getFieldInfo(element);
+    }
   }
 
   @override
   void visitPropertyAccessorElement(PropertyAccessorElement element) {
+    _handlePropertyAccessor(element);
+  }
+
+  @override
+  void visitGetterElement(GetterElement element) {
+    _handlePropertyAccessor(element);
+  }
+
+  @override
+  void visitSetterElement(SetterElement element) {
+    _handlePropertyAccessor(element);
+  }
+
+  void _handlePropertyAccessor(PropertyAccessorElement element) {
     if (element.isSynthetic) {
       return;
     }
 
-    properties[element.name] = PropertyInfo.fromElementInfo(
-        _getPropertyInfo(element),
-        isGetter: element.isGetter,
-        isSetter: element.isSetter);
+    final name = element.name;
+    if (name != null) {
+      properties[name] = PropertyInfo.fromElementInfo(
+          _getPropertyInfo(element),
+          isGetter: element.kind == ElementKind.GETTER,
+          isSetter: element.kind == ElementKind.SETTER);
+    }
   }
-
 
   @override
   void visitMethodElement(MethodElement element) {
-    functions[element.name] = _getElementInfo(element);
+    final name = element.name;
+    if (name != null) {
+      functions[name] = _getElementInfo(element);
+    }
   }
 
   ElementInfo _getElementInfo(Element element) {
@@ -129,7 +151,7 @@ class NameofVisitor extends RecursiveElementVisitor<void> {
   // For properties: both property name and value use custom name
   ElementInfo _getPropertyInfo(PropertyAccessorElement element) {
     final elementName = element.name;
-    if (elementName.isEmpty) {
+    if (elementName == null || elementName.isEmpty) {
       throw UnsupportedError('Element does not have a name!');
     }
 

@@ -22,7 +22,7 @@ dependencies:
   nameof_annotation: ^0.2.1
   
 dev_dependencies:
-  nameof_gen: ^0.3.0
+  nameof_gen: ^0.4.0
   build_runner: >=2.4.0
 ```
 
@@ -195,18 +195,20 @@ targets:
 ## Requirements
 
 - Dart SDK: >=2.16.0 <4.0.0
-- Dart analyzer: 7.7.0 - 8.1.x (compatible with reflectable and other packages)
-- build_runner: >=2.4.0 (compatible with both legacy and modern build systems)
+- Dart analyzer: >=8.1.1 <9.0.0
+- build: ^4.0.0
+- source_gen: ^4.0.0
+- build_runner: >=2.4.0 <3.0.0
 
 ## Compatibility
 
-This package is designed to work alongside other popular code generation packages:
+This package uses modern build dependencies and requires:
 
-- **✅ reflectable**: Compatible with `build: ^2.4.0` constraint
-- **✅ json_annotation + json_serializable**: Works with shared analyzer versions
-- **✅ Modern build tools**: Supports both build 2.4.x and 4.x ecosystems
+- **analyzer 8.1.1+**: Requires packages compatible with analyzer 8.x-9.x
+- **build 4.x**: Uses the latest build system APIs
+- **source_gen 4.x**: Modern source generation support
 
-The flexible dependency constraints ensure compatibility without forcing upgrades of your existing packages.
+**Note:** This version requires analyzer 8.1.1+ and is not compatible with older packages that depend on analyzer 7.x or earlier (such as older versions of reflectable). Ensure your other code generation dependencies support analyzer 8.x+ before upgrading.
 
 ## Attribution
 
